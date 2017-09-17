@@ -6,16 +6,16 @@ import java.net.Socket;
 import java.util.Scanner;
 public class Program {
     public static void main(String args[]) {
-        if (args.length != 1) {
+        /*if (args.length != 1) {
             System.out.println("USAGE: java TcpIpMultichatClient 대화명");
             System.exit(0);
-        }
+        }*/
         try {
-            String serverIp = "127.0.0.1";
+            String serverIp = "192.168.11.189";
             // 소켓을 생성하여 연결을 요청한다.
             Socket socket = new Socket(serverIp, 7777);
             System.out.println("서버에 연결되었습니다.");
-            Thread sender = new Thread(new ClientSender(socket, args[0]));
+            Thread sender = new Thread(new ClientSender(socket));
             Thread receiver = new Thread(new ClientReceiver(socket));
             sender.start();
             receiver.start();
@@ -28,7 +28,7 @@ public class Program {
         Socket socket;
         DataOutputStream out;
         String name;
-        ClientSender(Socket socket, String name) {
+        ClientSender(Socket socket) {
             this.socket = socket;
             try {
                 out = new DataOutputStream(socket.getOutputStream());
